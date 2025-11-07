@@ -7,15 +7,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Service
 public class ToplistServiceImpl implements ToplistService {
 
-    private final RestTemplateClient restClient;
+    private final ToplistClient restClient;
 
-    public ToplistServiceImpl(RestTemplateClient restClient) {
+    public ToplistServiceImpl(ToplistClient restClient) {
         this.restClient = restClient;
     }
 
@@ -46,7 +47,9 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        m.getArtistNames() != null ? m.getArtistNames() : List.of("Unknown"),
+                        Optional.ofNullable(m.getArtistNames())
+                                .filter(list -> !list.isEmpty())
+                                .orElse(List.of("Unknown")),
                         m.getAlbumTitle(),
                         m.getGenreNames(),
                         m.getReleaseDate(),
@@ -83,7 +86,9 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        m.getArtistNames() != null ? m.getArtistNames() : List.of("Unknown"),
+                        Optional.ofNullable(m.getArtistNames())
+                                .filter(list -> !list.isEmpty())
+                                .orElse(List.of("Unknown")),
                         m.getAlbumTitle(),
                         m.getGenreNames(),
                         m.getReleaseDate(),
