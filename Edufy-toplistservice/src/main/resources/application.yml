@@ -9,7 +9,7 @@ server:
   port: 8083
 
 ---
-# 🧑‍💻 DEV - lokal körning (utan Docker/Eureka)
+# DEV - lokal körning (utan Docker/Eureka)
 spring:
   config:
     activate:
