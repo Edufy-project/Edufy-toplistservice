@@ -54,7 +54,7 @@ public class ToplistServiceImpl implements ToplistService {
                         m.getGenreNames(),
                         m.getReleaseDate(),
                         m.getPlayCount(), // spelning per media
-                        totalPlays // summan av alla användares spelningar
+                        totalPlays // summan av alla användarnas spelningar
                 ))
                 .collect(Collectors.toList());
     }

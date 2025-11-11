@@ -32,7 +32,6 @@ public class ToplistClient {
                     .retrieve()
                     .body(UserDTO[].class);
         } catch (Exception e) {
-            // Hantera fel
             return new UserDTO[0];
         }
     }
@@ -45,7 +44,6 @@ public class ToplistClient {
                     .retrieve()
                     .body(MediaDTO[].class);
         } catch (Exception e) {
-            // Hantera fel
             return new MediaDTO[0];
         }
     }
