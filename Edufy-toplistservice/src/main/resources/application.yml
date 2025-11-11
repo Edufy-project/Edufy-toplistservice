@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: toplist-service
+
+  profiles:
+    active: dev # ändras automatiskt av Spring när du kör med --spring.profiles.active=prod
+
+server:
+  port: 8083
+
+---
+# DEV - lokal körning (utan Docker/Eureka)
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+services:
+  edufy-userservice:
+    url: http://localhost:8081
+  edufy-mediaplayer-service:
+    url: http://localhost:8082
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+
+---
+    # PROD - Docker/Eureka
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+services:
+  edufy-userservice:
+    url: http://user-service
+  edufy-mediaplayer-service:
+    url: http://media-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
