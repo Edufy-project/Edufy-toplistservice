@@ -29,7 +29,7 @@ public class ToplistClient {
     public UserDTO[] fetchAllUsers() {
         try {
             return userServiceClient.get()
-                    .uri( "/api/edufy/listusers")
+                    .uri( "edufy/api/listusers")
                     .retrieve()
                     .body(UserDTO[].class);
         } catch (Exception e) {
