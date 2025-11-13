@@ -10,25 +10,26 @@ import org.springframework.web.client.RestClient;
 @Component
 public class ToplistClient {
 
-    private final RestClient restClient;
+    private RestClient userServiceClient;
+    private RestClient mediaServiceClient;
 
-    @Value("${services.edufy-userservice.url:http://localhost:8081}")
-    private String userServiceUrl;
+    public ToplistClient(RestClient.Builder restClientBuilder,
+                            @Value("http://localhost:9093") String userServiceUrl,
+                            @Value("http://localhost:9091") String mediaServiceUrl) {
+        this.userServiceClient = restClientBuilder
+                .baseUrl(userServiceUrl)
+                .build();
 
-    @Value("${services.edufy-mediaplayer-service.url:http://localhost:8082}")
-    private String mediaServiceUrl;
-
-    public ToplistClient(RestClient.Builder restClientBuilder, @Value("http://localhost:8080") String url) {
-        this.restClient = restClientBuilder
-                .baseUrl(url)
+        this.mediaServiceClient = restClientBuilder
+                .baseUrl(mediaServiceUrl)
                 .build();
     }
 
     // Hämtar alla användare från UserService API
     public UserDTO[] fetchAllUsers() {
         try {
-            return restClient.get()
-                    .uri(userServiceUrl + "/api/edufy/listusers")
+            return userServiceClient.get()
+                    .uri( "edufy/api/listusers")
                     .retrieve()
                     .body(UserDTO[].class);
         } catch (Exception e) {
@@ -39,8 +40,8 @@ public class ToplistClient {
     // Hämtar alla mediaobjekt från MediaPlayer API
     public MediaDTO[] fetchAllMedia() {
         try {
-            return restClient.get()
-                    .uri(mediaServiceUrl + "/edufy/api/mediaplayer/media/all")
+            return mediaServiceClient.get()
+                    .uri("/edufy/api/mediaplayer/media/{mediaName}")
                     .retrieve()
                     .body(MediaDTO[].class);
         } catch (Exception e) {
