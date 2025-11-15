@@ -23,7 +23,7 @@ public class ToplistServiceImpl implements ToplistService {
     @Override
     public List<ToplistDTO> getTopPlayedMedia() {
         UserDTO[] users = restClient.fetchAllUsers();
-        MediaDTO[] media = restClient.fetchAllMedia();
+        MediaDTO[] media = restClient.fetchAllMedia().toArray(new MediaDTO[0]);
 
         if (users == null || users.length == 0) {
             throw new ResourceNotFoundException("Users", "all", "No users found");
@@ -38,7 +38,8 @@ public class ToplistServiceImpl implements ToplistService {
                 .sum();
 
         if (totalPlays == 0) {
-            throw new InvalidRequestException("No play counts found for any users");
+            return List.of(); // tom topp-lista
+//            throw new InvalidRequestException("No play counts found for any users");
         }
 
         // Samlad topp 10 oavsett typ
@@ -62,7 +63,7 @@ public class ToplistServiceImpl implements ToplistService {
     @Override
     public List<ToplistDTO> getTopPlayedMediaByType(String type) {
         UserDTO[] users = restClient.fetchAllUsers();
-        MediaDTO[] media = restClient.fetchAllMedia();
+        MediaDTO[] media = restClient.fetchAllMedia().toArray(new MediaDTO[0]);
 
         if (users == null || users.length == 0) {
             throw new ResourceNotFoundException("Users", "all", "No users found");
@@ -76,7 +77,8 @@ public class ToplistServiceImpl implements ToplistService {
                 .sum();
 
         if (totalPlays == 0) {
-            throw new InvalidRequestException("No play counts found for any users");
+            return List.of(); // tom topp-lista
+//            throw new InvalidRequestException("No play counts found for any users");
         }
 
         // Filtrera på type
