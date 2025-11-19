@@ -53,7 +53,7 @@ public class ToplistServiceImpl implements ToplistService {
                 .collect(Collectors.toList());
     }
 
-    // Intern helper för användartopplista med optional typfilter
+    // nvändartopplista type filter
     private List<ToplistDTO> generateUserToplist(Long userId, String type) {
         List<MediaReference> userHistory = restClient.fetchUserMediaHistory(userId);
         List<MediaDTO> allMedia = restClient.fetchAllMedia();
@@ -63,7 +63,7 @@ public class ToplistServiceImpl implements ToplistService {
         }
 
         if (userHistory.isEmpty()) {
-            return List.of(); // Historiken är tom
+            return List.of(); // Historiken är tom då skickas tom lista (OK 200)
         }
 
         List<MediaDTO> userMedia = userHistory.stream()
@@ -77,7 +77,7 @@ public class ToplistServiceImpl implements ToplistService {
                 .toList();
 
         if (userMedia.isEmpty()) {
-            return List.of(); // Ingen media i historiken hittades
+            return List.of(); // Ingen media i historiken hittades då skickas tom lista (OK 200)
         }
         long totalPlays = userMedia.stream()
                 .mapToLong(MediaDTO::getPlayCount)
