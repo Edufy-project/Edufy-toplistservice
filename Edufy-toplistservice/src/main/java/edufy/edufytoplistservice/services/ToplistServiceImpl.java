@@ -53,7 +53,7 @@ public class ToplistServiceImpl implements ToplistService {
                 .collect(Collectors.toList());
     }
 
-    // nvändartopplista type filter
+    // användartopplista type filter
     private List<ToplistDTO> generateUserToplist(Long userId, String type) {
         List<MediaReference> userHistory = restClient.fetchUserMediaHistory(userId);
         List<MediaDTO> allMedia = restClient.fetchAllMedia();
