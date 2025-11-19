@@ -1,7 +1,7 @@
 package edufy.edufytoplistservice.services;
 
 import edufy.edufytoplistservice.dto.MediaDTO;
-import edufy.edufytoplistservice.dto.UserDTO;
+import edufy.edufytoplistservice.dto.MediaReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -29,29 +29,6 @@ public class ToplistClient {
                 .build();
     }
 
-    // Hämtar alla användare från UserService API
-    public UserDTO[] fetchAllUsers() {
-        try {
-            return userServiceClient.get()
-                    .uri( "edufy/api/listusers")
-                    .retrieve()
-                    .body(UserDTO[].class);
-        } catch (Exception e) {
-            return new UserDTO[0];
-        }
-    }
-
-    // Hämtar alla mediaobjekt från MediaPlayer API
-//    public MediaDTO[] fetchAllMedia() {
-//        try {
-//            return mediaServiceClient.get()
-//                    .uri("/edufy/api/mediaplayer/getmedia/all/{type}")
-//                    .retrieve()
-//                    .body(MediaDTO[].class);
-//        } catch (Exception e) {
-//            return new MediaDTO[0];
-//        }
-//    }
     // Hämtar alla mediaobjekt från MediaPlayer API
     public List<MediaDTO> fetchAllMedia() {
         List<MediaDTO> allMedia = new ArrayList<>();
@@ -71,4 +48,19 @@ public class ToplistClient {
         }
         return allMedia;
     }
+
+    public List<MediaReference> fetchUserMediaHistory(Long userId) {
+        try {
+            MediaReference[] response = userServiceClient.get()
+                    .uri("/edufy/api/usermediahistory/{userid}", userId)
+                    .retrieve()
+                    .body(MediaReference[].class);
+            System.out.println("Fetched user media history: " + Arrays.toString(response));
+            return Arrays.asList(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
 }

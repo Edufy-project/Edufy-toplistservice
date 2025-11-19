@@ -2,6 +2,7 @@ package edufy.edufytoplistservice.controllers;
 
 import edufy.edufytoplistservice.dto.ToplistDTO;
 import edufy.edufytoplistservice.services.ToplistService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +20,40 @@ public class ToplistController {
         this.toplistService = toplistService;
     }
 
-    // Samlad 10-topplista
+    // Global topp 10
     @GetMapping("/mostplayed")
-    public List<ToplistDTO> getMostPlayed() {
+    public List<ToplistDTO> getMostPlayedMedia() {
         return toplistService.getTopPlayedMedia();
     }
 
-    // filtrerad 10-topplista baserat på medie typ
+    // Global topp 10 per typ
     @GetMapping("/mostplayed/{type}")
-    public List<ToplistDTO> getMostPlayedByType(@PathVariable String type) {
+    public List<ToplistDTO> getMostPlayedMediaByType(@PathVariable String type) {
         return toplistService.getTopPlayedMediaByType(type);
     }
+
+    // Topp 10 för en specifik användare
+    @GetMapping("/user/{userId}/mostplayed")
+    public List<ToplistDTO> getUserToplist(@PathVariable Long userId) {
+        return toplistService.getTopPlayedMediaForUser(userId);
+    }
+
+    @GetMapping("/user/{userId}/mostplayed/{type}")
+    public List<ToplistDTO> getUserToplistByType(@PathVariable Long userId, @PathVariable String type) {
+        return toplistService.getTopPlayedMediaForUserByType(userId, type);
+    }
+
+    // LISTOR MED SECURITY CONFIG ?
+//    @GetMapping("/mostplayed")
+//    public List<ToplistDTO> getTopPlayedForUser() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getName();
+//        return toplistService.getTopPlayedMediaForUsername(username);
+//    }
+//    @GetMapping("/mostplayed/{type}")
+//    public List<ToplistDTO> getTopPlayedForUserByType(@PathVariable String type) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getName();
+//        return toplistService.getTopPlayedMediaForUsernameByType(username, type);
+//    }
 }

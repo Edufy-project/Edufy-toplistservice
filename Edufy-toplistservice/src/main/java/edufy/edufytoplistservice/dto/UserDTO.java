@@ -1,16 +1,20 @@
 package edufy.edufytoplistservice.dto;
 
+import java.util.List;
+
 public class UserDTO {
     private Long id;
     private String username;
     private Long totalPlayCount;
     private String preferredGenres;
     private Long playCount;
+    private List<MediaReference> mediaHistory;
+
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String username, Long totalPlayCount, String preferredGenres, Long playCount) {
+    public UserDTO(Long id, String username, Long totalPlayCount, String preferredGenres, Long playCount,  List<MediaReference> mediaHistory) {
         this.id = id;
         this.username = username;
         this.totalPlayCount = totalPlayCount;
@@ -37,5 +41,8 @@ public class UserDTO {
 
     public Long getPlayCount() {
         return playCount;
+    }
+    public List<MediaReference> getMediaHistory() {
+        return mediaHistory;
     }
 }
