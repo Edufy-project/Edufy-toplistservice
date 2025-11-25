@@ -33,12 +33,12 @@ public class ToplistController {
     }
 
     // Topp 10 för en specifik användare
-    @GetMapping("/user/{userId}/mostplayed")
+    @GetMapping("/user/mostplayed/{userId}")
     public List<ToplistDTO> getUserToplist(@PathVariable Long userId) {
         return toplistService.getTopPlayedMediaForUser(userId);
     }
 
-    @GetMapping("/user/{userId}/mostplayed/{type}")
+    @GetMapping("/user/mostplayed/{type}/{userId}")
     public List<ToplistDTO> getUserToplistByType(@PathVariable Long userId, @PathVariable String type) {
         return toplistService.getTopPlayedMediaForUserByType(userId, type);
     }
