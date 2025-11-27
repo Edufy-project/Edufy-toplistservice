@@ -113,6 +113,7 @@ public class ToplistServiceImpl implements ToplistService {
         List<MediaDTO> filteredMedia = restClient.fetchAllMedia(token).stream()
                 .filter(m -> m.getType() != null && m.getType().equalsIgnoreCase(type))
                 .toList();
+
         if (filteredMedia.isEmpty()) {
             throw new ResourceNotFoundException("Media", "type", type);
         }
