@@ -29,34 +29,42 @@ public class ToplistServiceImpl implements ToplistService {
                     .toList();
         }
 
-        long totalPlays = mediaList.stream()
+        Long totalPlays = mediaList.stream()
                 .mapToLong(MediaDTO::getPlayCount)
                 .sum();
 
+
+        System.out.println(totalPlays);
         if (totalPlays == 0) {
             return List.of();
         }
 
-        return mediaList.stream()
-                .sorted(Comparator.comparingLong(MediaDTO::getPlayCount).reversed())
-                .limit(10)
-                .map(m -> new ToplistDTO(
-                        m.getTitle(),
-                        m.getType(),
-                        Optional.ofNullable(m.getArtistNames()).filter(list -> !list.isEmpty()).orElse(List.of("Unknown")),
-                        m.getAlbumTitle(),
-                        m.getGenreNames(),
-                        m.getReleaseDate(),
-                        m.getPlayCount(),
-                        totalPlays
-                ))
-                .collect(Collectors.toList());
+        List<ToplistDTO> toplist = mediaList.stream()
+                                    .sorted(Comparator.comparingLong(MediaDTO::getPlayCount).reversed())
+                                    .limit(10)
+                                    .map(m -> new ToplistDTO(
+                                            m.getTitle(),
+                                            m.getType(),
+                                            Optional.ofNullable(m.getArtistNames()).filter(list -> !list.isEmpty()).orElse(List.of("Unknown")),
+                                            m.getAlbumTitle(),
+                                            m.getGenreNames(),
+                                            m.getReleaseDate(),
+                                            m.getPlayCount(),
+                                            totalPlays
+                                    ))
+                                    .collect(Collectors.toList());
+
+        System.out.println(toplist.size());
+        return toplist;
     }
 
     // Intern helper för användartopplista med optional typfilter
     private List<ToplistDTO> generateUserToplist(Long userId, String type, String token) {
         List<MediaReference> userHistory = restClient.fetchUserMediaHistory(userId, token);
         List<MediaDTO> allMedia = restClient.fetchAllMedia(token);
+
+        System.out.println("All media: " + allMedia.size());
+        System.out.println("User history: " + userHistory.size());
 
         if (userHistory == null) {
             throw new ResourceNotFoundException("User", "userId", userId);
@@ -79,7 +87,7 @@ public class ToplistServiceImpl implements ToplistService {
         if (userMedia.isEmpty()) {
             return List.of(); // Ingen media i historiken hittades
         }
-        long totalPlays = userMedia.stream()
+        Long totalPlays = userMedia.stream()
                 .mapToLong(MediaDTO::getPlayCount)
                 .sum();
 
@@ -110,9 +118,13 @@ public class ToplistServiceImpl implements ToplistService {
 
     @Override
     public List<ToplistDTO> getTopPlayedMediaByType(String type, String token) {
-        List<MediaDTO> filteredMedia = restClient.fetchAllMedia(token).stream()
+        /*List<MediaDTO> filteredMedia = restClient.fetchAllMedia(token).stream()
                 .filter(m -> m.getType() != null && m.getType().equalsIgnoreCase(type))
-                .toList();
+                .toList();*/
+        List<MediaDTO> filteredMedia = restClient.fetchAllMedia(token);
+
+        System.out.println("All media from type " + type + ": " + filteredMedia);
+
 
         if (filteredMedia.isEmpty()) {
             throw new ResourceNotFoundException("Media", "type", type);

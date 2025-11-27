@@ -16,7 +16,7 @@ public class MediaDTO {
     private String albumTitle;
     private List<String> artistNames;
     private List<String> genreNames;
-    private long playCount;
+    private Long playCount;
 
     public MediaDTO() {}
 
@@ -74,7 +74,7 @@ public class MediaDTO {
         return genreNames;
     }
 
-    public long getPlayCount() {
+    public Long getPlayCount() {
         return playCount;
     }
 }

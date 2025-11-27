@@ -61,7 +61,7 @@ public class ToplistClient {
     public List<MediaReference> fetchUserMediaHistory(Long userId, String token) {
         try {
             MediaReference[] response = userServiceClient.get()
-                    .uri("/edufy/api/usermediahistory/{userid}", userId)
+                    .uri("/edufy/api/users/usermediahistory/{userid}", userId)
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                     .retrieve()
                     .body(MediaReference[].class);
