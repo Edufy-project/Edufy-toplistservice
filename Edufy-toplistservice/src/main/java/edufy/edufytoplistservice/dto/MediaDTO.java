@@ -14,13 +14,13 @@ public class MediaDTO {
     private Integer albumOrder;
     private LocalDateTime createdAt;
     private String albumTitle;
-    private List<String> artistNames;
-    private List<String> genreNames;
+    private String artistName;
+    private String genreName;
     private long playCount;
 
     public MediaDTO() {}
 
-    public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, List<String> artistNames, List<String> genreNames, long playCount) {
+    public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, String artistNames, String genreNames, long playCount) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -29,8 +29,8 @@ public class MediaDTO {
         this.albumOrder = albumOrder;
         this.createdAt = createdAt;
         this.albumTitle = albumTitle;
-        this.artistNames = artistNames;
-        this.genreNames = genreNames;
+        this.artistName = artistNames;
+        this.genreName = genreNames;
         this.playCount = playCount;
     }
 
@@ -66,12 +66,12 @@ public class MediaDTO {
         return albumTitle;
     }
 
-    public List<String> getArtistNames() {
-        return artistNames;
+    public String getArtistNames() {
+        return artistName;
     }
 
-    public List<String> getGenreNames() {
-        return genreNames;
+    public String getGenreNames() {
+        return genreName;
     }
 
     public long getPlayCount() {

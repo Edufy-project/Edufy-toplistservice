@@ -32,7 +32,7 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        Optional.ofNullable(m.getArtistNames()).filter(list -> !list.isEmpty()).orElse(List.of("Unknown")),
+                        m.getArtistNames(),
                         m.getAlbumTitle(),
                         m.getGenreNames(),
                         m.getReleaseDate(),
@@ -78,7 +78,7 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        Optional.ofNullable(m.getArtistNames()).filter(list -> !list.isEmpty()).orElse(List.of("Unknown")),
+                        m.getArtistNames(),
                         m.getAlbumTitle(),
                         m.getGenreNames(),
                         m.getReleaseDate(),

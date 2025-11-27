@@ -6,9 +6,9 @@ import java.util.List;
 public class ToplistDTO {
     private String title;
     private String type; // MUSIC, POD, VIDEO
-    private List<String> artist;
+    private String artist;
     private String albumTitle;
-    private List<String> genre;
+    private String genre;
     private LocalDate releaseDate;
     private Long playCount;
     private Long totalPlayCount;
@@ -16,7 +16,7 @@ public class ToplistDTO {
     public ToplistDTO() {
     }
 
-    public ToplistDTO(String title, String type, List<String> artist, String albumTitle, List<String> genre, LocalDate releaseDate, Long playCount, Long totalPlayCount) {
+    public ToplistDTO(String title, String type, String artist, String albumTitle, String genre, LocalDate releaseDate, Long playCount, Long totalPlayCount) {
         this.title = title;
         this.type = type;
         this.artist = artist;
@@ -35,7 +35,7 @@ public class ToplistDTO {
         return type;
     }
 
-    public List<String> getArtist() {
+    public String getArtist() {
         return artist;
     }
 
@@ -43,7 +43,7 @@ public class ToplistDTO {
         return albumTitle;
     }
 
-    public List<String> getGenre() {
+    public String getGenre() {
         return genre;
     }
 
