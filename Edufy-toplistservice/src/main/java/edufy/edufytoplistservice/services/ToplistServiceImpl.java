@@ -32,9 +32,9 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        m.getArtistNames(),
+                        m.getArtistName(),
                         m.getAlbumTitle(),
-                        m.getGenreNames(),
+                        m.getGenreName(),
                         m.getReleaseDate(),
                         m.getPlayCount(),
                         totalPlays
@@ -78,9 +78,9 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        m.getArtistNames(),
+                        m.getArtistName(),
                         m.getAlbumTitle(),
-                        m.getGenreNames(),
+                        m.getGenreName(),
                         m.getReleaseDate(),
                         m.getPlayCount(),
                         totalPlays
