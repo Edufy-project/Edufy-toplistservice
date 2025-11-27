@@ -6,9 +6,9 @@ import java.util.List;
 
 public class MediaDTO {
 
-    private Long id;
+    private Long mediaId;
     private String title;
-    private String type; //TODO "MUSIC", "POD", "VIDEO"
+    private String mediaType; //TODO "MUSIC", "POD", "VIDEO"
     private LocalDate releaseDate;
     private String streamUrl;
     private Integer albumOrder;
@@ -21,9 +21,9 @@ public class MediaDTO {
     public MediaDTO() {}
 
     public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, List<String> artistNames, List<String> genreNames, long playCount) {
-        this.id = id;
+        this.mediaId = id;
         this.title = title;
-        this.type = type;
+        this.mediaType = type;
         this.releaseDate = releaseDate;
         this.streamUrl = streamUrl;
         this.albumOrder = albumOrder;
@@ -34,16 +34,16 @@ public class MediaDTO {
         this.playCount = playCount;
     }
 
-    public Long getId() {
-        return id;
+    public Long getMediaId() {
+        return mediaId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getType() {
-        return type;
+    public String getMediaType() {
+        return mediaType;
     }
 
     public LocalDate getReleaseDate() {

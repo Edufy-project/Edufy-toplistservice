@@ -1,5 +1,6 @@
 package edufy.edufytoplistservice.dto;
 
+
 public class MediaReference {
     private String mediaType;
     private Long mediaId;
