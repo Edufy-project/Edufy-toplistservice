@@ -6,44 +6,44 @@ import java.util.List;
 
 public class MediaDTO {
 
-    private Long mediaId;
+    private Long id;
     private String title;
-    private String mediaType; //TODO "MUSIC", "POD", "VIDEO"
+    private String type; //TODO "MUSIC", "POD", "VIDEO"
     private LocalDate releaseDate;
     private String streamUrl;
     private Integer albumOrder;
     private LocalDateTime createdAt;
     private String albumTitle;
-    private List<String> artistNames;
-    private List<String> genreNames;
-    private Long playCount;
+    private String artistName;
+    private String genreName;
+    private long playCount;
 
     public MediaDTO() {}
 
-    public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, List<String> artistNames, List<String> genreNames, long playCount) {
-        this.mediaId = id;
+    public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, String artistNames, String genreNames, long playCount) {
+        this.id = id;
         this.title = title;
-        this.mediaType = type;
+        this.type = type;
         this.releaseDate = releaseDate;
         this.streamUrl = streamUrl;
         this.albumOrder = albumOrder;
         this.createdAt = createdAt;
         this.albumTitle = albumTitle;
-        this.artistNames = artistNames;
-        this.genreNames = genreNames;
+        this.artistName = artistNames;
+        this.genreName = genreNames;
         this.playCount = playCount;
     }
 
-    public Long getMediaId() {
-        return mediaId;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getMediaType() {
-        return mediaType;
+    public String getType() {
+        return type;
     }
 
     public LocalDate getReleaseDate() {
@@ -66,15 +66,15 @@ public class MediaDTO {
         return albumTitle;
     }
 
-    public List<String> getArtistNames() {
-        return artistNames;
+    public String getArtistNames() {
+        return artistName;
     }
 
-    public List<String> getGenreNames() {
-        return genreNames;
+    public String getGenreNames() {
+        return genreName;
     }
 
-    public Long getPlayCount() {
+    public long getPlayCount() {
         return playCount;
     }
 }
