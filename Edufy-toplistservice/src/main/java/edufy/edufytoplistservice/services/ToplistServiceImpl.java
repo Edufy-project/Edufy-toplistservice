@@ -19,23 +19,12 @@ public class ToplistServiceImpl implements ToplistService {
 
 
     // Gemensam metod för att generera topp 10 lista
-    private List<ToplistDTO> generateToplist(List<MediaDTO> mediaList, List<MediaReference> userMediaHistory) {
-        if (userMediaHistory != null) {
-            List<Long> mediaIds = userMediaHistory.stream()
-                    .map(MediaReference::getMediaId)
-                    .toList();
-            mediaList = mediaList.stream()
-                    .filter(m -> mediaIds.contains(m.getId()))
-                    .toList();
-        }
+    // 🔥 Genererar global topp 10 – utan user filter
+    private List<ToplistDTO> generateToplist(List<MediaDTO> mediaList) {
 
         long totalPlays = mediaList.stream()
                 .mapToLong(MediaDTO::getPlayCount)
                 .sum();
-
-        if (totalPlays == 0) {
-            return List.of();
-        }
 
         return mediaList.stream()
                 .sorted(Comparator.comparingLong(MediaDTO::getPlayCount).reversed())
@@ -43,9 +32,9 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        Optional.ofNullable(m.getArtistNames()).filter(list -> !list.isEmpty()).orElse(List.of("Unknown")),
+                        m.getArtistName(),
                         m.getAlbumTitle(),
-                        m.getGenreNames(),
+                        m.getGenreName(),
                         m.getReleaseDate(),
                         m.getPlayCount(),
                         totalPlays
@@ -53,17 +42,17 @@ public class ToplistServiceImpl implements ToplistService {
                 .collect(Collectors.toList());
     }
 
-    // användartopplista type filter
-    private List<ToplistDTO> generateUserToplist(Long userId, String type) {
-        List<MediaReference> userHistory = restClient.fetchUserMediaHistory(userId);
-        List<MediaDTO> allMedia = restClient.fetchAllMedia();
+    // Intern helper för användartopplista med optional typfilter
+    private List<ToplistDTO> generateUserToplist(Long userId, String type, String token) {
+        List<MediaReference> userHistory = restClient.fetchUserMediaHistory(userId, token);
+        List<MediaDTO> allMedia = restClient.fetchAllMedia(token);
 
         if (userHistory == null) {
             throw new ResourceNotFoundException("User", "userId", userId);
         }
 
         if (userHistory.isEmpty()) {
-            return List.of(); // Historiken är tom då skickas tom lista (OK 200)
+            return List.of(); // Historiken är tom
         }
 
         List<MediaDTO> userMedia = userHistory.stream()
@@ -73,11 +62,11 @@ public class ToplistServiceImpl implements ToplistService {
                                 (type == null || m.getType().equalsIgnoreCase(type)))
                         .findFirst()
                         .orElse(null))
-                .filter(m -> m != null)
-                .toList();
+                        .filter(m -> m != null)
+                        .toList();
 
         if (userMedia.isEmpty()) {
-            return List.of(); // Ingen media i historiken hittades då skickas tom lista (OK 200)
+            return List.of(); // Ingen media i historiken hittades
         }
         long totalPlays = userMedia.stream()
                 .mapToLong(MediaDTO::getPlayCount)
@@ -89,9 +78,9 @@ public class ToplistServiceImpl implements ToplistService {
                 .map(m -> new ToplistDTO(
                         m.getTitle(),
                         m.getType(),
-                        Optional.ofNullable(m.getArtistNames()).filter(list -> !list.isEmpty()).orElse(List.of("Unknown")),
+                        m.getArtistName(),
                         m.getAlbumTitle(),
-                        m.getGenreNames(),
+                        m.getGenreName(),
                         m.getReleaseDate(),
                         m.getPlayCount(),
                         totalPlays
@@ -100,33 +89,40 @@ public class ToplistServiceImpl implements ToplistService {
     }
 
     @Override
-    public List<ToplistDTO> getTopPlayedMedia() {
-        List<MediaDTO> allMedia = restClient.fetchAllMedia();
-        if (allMedia.isEmpty()) {
-            throw new ResourceNotFoundException("Media", "all", "No media found");
-        }
-        return generateToplist(allMedia, null);
+    public List<ToplistDTO> getTopPlayedMedia(String token) {
+        return generateToplist(restClient.fetchAllMedia(token));
+
+//        List<MediaDTO> allMedia = restClient.fetchAllMedia(token);
+//        if (allMedia.isEmpty()) {
+//            throw new ResourceNotFoundException("Media", "all", "No media found");
+//        }
+//        return generateToplist(allMedia, null);
     }
 
     @Override
-    public List<ToplistDTO> getTopPlayedMediaByType(String type) {
-        List<MediaDTO> filteredMedia = restClient.fetchAllMedia().stream()
-                .filter(m -> m.getType() != null && m.getType().equalsIgnoreCase(type))
+    public List<ToplistDTO> getTopPlayedMediaByType(String type, String token) {
+        List<MediaDTO> filtered = restClient.fetchAllMedia(token).stream()
+                .filter(m -> m.getType().equalsIgnoreCase(type))
                 .toList();
-        if (filteredMedia.isEmpty()) {
-            throw new ResourceNotFoundException("Media", "type", type);
-        }
-        return generateToplist(filteredMedia, null);
+        return generateToplist(filtered);
+//        List<MediaDTO> filteredMedia = restClient.fetchAllMedia(token).stream()
+//                .filter(m -> m.getType() != null && m.getType().equalsIgnoreCase(type))
+//                .toList();
+//
+//        if (filteredMedia.isEmpty()) {
+//            throw new ResourceNotFoundException("Media", "type", type);
+//        }
+//        return generateToplist(filteredMedia, null);
     }
 
     @Override
-    public List<ToplistDTO> getTopPlayedMediaForUser(Long userId) {
-        return generateUserToplist(userId, null);
+    public List<ToplistDTO> getTopPlayedMediaForUser(Long userId, String token) {
+        return generateUserToplist(userId, null, token);
     }
 
     @Override
-    public List<ToplistDTO> getTopPlayedMediaForUserByType(Long userId, String type) {
-        return generateUserToplist(userId, type);
+    public List<ToplistDTO> getTopPlayedMediaForUserByType(Long userId, String type, String token) {
+        return generateUserToplist(userId, type, token);
     }
 }
 
