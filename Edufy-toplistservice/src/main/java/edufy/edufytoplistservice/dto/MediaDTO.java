@@ -2,13 +2,12 @@ package edufy.edufytoplistservice.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class MediaDTO {
 
     private Long id;
     private String title;
-    private String type; //TODO "MUSIC", "POD", "VIDEO"
+    private String type;
     private LocalDate releaseDate;
     private String streamUrl;
     private Integer albumOrder;
@@ -20,7 +19,7 @@ public class MediaDTO {
 
     public MediaDTO() {}
 
-    public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, String artistNames, String genreNames, long playCount) {
+    public MediaDTO(Long id, String title, String type, LocalDate releaseDate, String streamUrl, Integer albumOrder, LocalDateTime createdAt, String albumTitle, String artistName, String genreName, long playCount) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -29,8 +28,8 @@ public class MediaDTO {
         this.albumOrder = albumOrder;
         this.createdAt = createdAt;
         this.albumTitle = albumTitle;
-        this.artistName = artistNames;
-        this.genreName = genreNames;
+        this.artistName = artistName;
+        this.genreName = genreName;
         this.playCount = playCount;
     }
 
@@ -66,11 +65,11 @@ public class MediaDTO {
         return albumTitle;
     }
 
-    public String getArtistNames() {
+    public String getArtistName() {
         return artistName;
     }
 
-    public String getGenreNames() {
+    public String getGenreName() {
         return genreName;
     }
 

@@ -10,7 +10,6 @@ public class UserDTO {
     private Long playCount;
     private List<MediaReference> mediaHistory;
 
-
     public UserDTO() {
     }
 
@@ -21,7 +20,6 @@ public class UserDTO {
         this.preferredGenres = preferredGenres;
         this.playCount = playCount;
     }
-
 
     public Long getId() {
         return id;

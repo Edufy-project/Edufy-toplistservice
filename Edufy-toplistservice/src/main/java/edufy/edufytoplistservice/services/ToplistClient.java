@@ -3,7 +3,6 @@ package edufy.edufytoplistservice.services;
 import edufy.edufytoplistservice.dto.MediaDTO;
 import edufy.edufytoplistservice.dto.MediaReference;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 @Component
 public class ToplistClient {
 
@@ -20,8 +18,8 @@ public class ToplistClient {
     private RestClient mediaServiceClient;
 
     public ToplistClient(RestClient.Builder restClientBuilder,
-                            @Value("http://localhost:9093") String userServiceUrl,
-                            @Value("http://localhost:9091") String mediaServiceUrl) {
+                         @Value("http://edufy-userservice-container:9093") String userServiceUrl,
+                         @Value("http://edufy-mediaplayer-service-container:9091") String mediaServiceUrl) {
         this.userServiceClient = restClientBuilder
                 .baseUrl(userServiceUrl)
                 .build();
@@ -31,7 +29,6 @@ public class ToplistClient {
                 .build();
     }
 
-    // Hämtar alla mediaobjekt från MediaPlayer API
     public List<MediaDTO> fetchAllMedia(String token) {
         List<MediaDTO> allMedia = new ArrayList<>();
         try {
@@ -72,5 +69,4 @@ public class ToplistClient {
             return List.of();
         }
     }
-
 }

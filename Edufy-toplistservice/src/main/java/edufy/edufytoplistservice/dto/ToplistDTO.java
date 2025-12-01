@@ -1,11 +1,10 @@
 package edufy.edufytoplistservice.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class ToplistDTO {
     private String title;
-    private String type; // MUSIC, POD, VIDEO
+    private String type;
     private String artist;
     private String albumTitle;
     private String genre;
@@ -59,4 +58,3 @@ public class ToplistDTO {
         return totalPlayCount;
     }
 }
-
